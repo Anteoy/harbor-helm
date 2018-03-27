@@ -2,6 +2,7 @@ apiVersion: apps/v1beta2
 kind: StatefulSet
 metadata:
   name: "{{ template "harbor.fullname" . }}-mysql"
+  namespace: class100-ops
   labels:
 {{ include "harbor.labels" . | indent 4 }}
     component: mysql
@@ -33,10 +34,12 @@ spec:
         volumeMounts:
         - name: mysql-data
           mountPath: /var/lib/mysql
+          subPath: harbor-v1/mysql-data/
       {{- if not .Values.persistence.enabled }}
       volumes:
-      - name: "mysql-data"
-        emptyDir: {}
+      - name: mysql-data
+        persistentVolumeClaim:
+          claimName: harbor-pvc
       {{- end -}}
   {{- if .Values.persistence.enabled }}
   volumeClaimTemplates:

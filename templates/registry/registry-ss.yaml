@@ -2,6 +2,7 @@ apiVersion: apps/v1beta2
 kind: StatefulSet
 metadata:
   name: "{{ template "harbor.fullname" . }}-registry"
+  namespace: class100-ops
   labels:
 {{ include "harbor.labels" . | indent 4 }}
     component: registry
@@ -37,6 +38,7 @@ spec:
         volumeMounts:
         - name: registry-data
           mountPath: /var/lib/registry
+          subPath: harbor-v1/registry-data/
         - name: registry-root-certificate
           mountPath: /etc/registry/root.crt
           subPath: root.crt
@@ -47,7 +49,8 @@ spec:
 {{- if not .Values.registry.objectStorage }}
 {{- if not .Values.persistence.enabled }}
       - name: registry-data
-        emptyDir: {}
+        persistentVolumeClaim:
+          claimName: harbor-pvc
 {{- end }}
 {{- end }}
       - name: registry-root-certificate

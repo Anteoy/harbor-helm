@@ -287,4 +287,5 @@ postgresql:
   postgresPassword: not-a-secure-password
   postgresDatabase: clair
   persistence:
-    enabled: false
+    enabled: true
+    existingClaim: harbor-pvc

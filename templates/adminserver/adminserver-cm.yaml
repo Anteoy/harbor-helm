@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  namespace: class100-ops
   name: "{{ template "harbor.fullname" . }}-adminserver"
   labels:
 {{ include "harbor.labels" . | indent 4 }}

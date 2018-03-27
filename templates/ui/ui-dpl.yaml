@@ -2,6 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: "{{ template "harbor.fullname" . }}-ui"
+  namespace: class100-ops
   labels:
 {{ include "harbor.labels" . | indent 4 }}
     component: ui
@@ -54,8 +55,10 @@ spec:
           subPath: private_key.pem
         - name: ca-download
           mountPath: /etc/ui/ca
+          subPath: harbor-v1/ui-ca/
         - name: psc
           mountPath: /etc/ui/token
+          subPath: harbor-v1/ui-psc/
       volumes:
       - name: ui-config
         configMap:

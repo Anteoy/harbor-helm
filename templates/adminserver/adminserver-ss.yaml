@@ -2,6 +2,7 @@ apiVersion: apps/v1beta2
 kind: StatefulSet
 metadata:
   name: "{{ template "harbor.fullname" . }}-adminserver"
+  namespace: class100-ops
   labels:
 {{ include "harbor.labels" . | indent 4 }}
     component: adminserver
@@ -42,13 +43,15 @@ spec:
         volumeMounts:
         - name: adminserver-config
           mountPath: /etc/adminserver/config
+          subPath: harbor-v1/adminserver/
         - name: adminserver-key
           mountPath: /etc/adminserver/key
           subPath: key
       volumes:
       {{- if not .Values.persistence.enabled }}
       - name: adminserver-config
-        emptyDir: {}
+        persistentVolumeClaim:
+          claimName: harbor-pvc
       {{- end }}
       - name: adminserver-key
         secret:
