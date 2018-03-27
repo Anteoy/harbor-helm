@@ -288,4 +288,4 @@ postgresql:
   postgresDatabase: clair
   persistence:
     enabled: true
-    existingClaim: harbor-pvc
+    existingClaim: appspvc

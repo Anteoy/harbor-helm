@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: "{{ template "harbor.fullname" . }}-jobservice"
-  namespace: class100-ops
+  namespace: kube-apps
   labels:
 {{ include "harbor.labels" . | indent 4 }}
     component: jobservice

@@ -2,7 +2,7 @@ apiVersion: apps/v1beta2
 kind: StatefulSet
 metadata:
   name: "{{ template "harbor.fullname" . }}-mysql"
-  namespace: class100-ops
+  namespace: kube-apps
   labels:
 {{ include "harbor.labels" . | indent 4 }}
     component: mysql
@@ -39,7 +39,7 @@ spec:
       volumes:
       - name: mysql-data
         persistentVolumeClaim:
-          claimName: harbor-pvc
+          claimName: appspvc
       {{- end -}}
   {{- if .Values.persistence.enabled }}
   volumeClaimTemplates:

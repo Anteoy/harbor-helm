@@ -2,7 +2,7 @@ apiVersion: apps/v1beta2
 kind: StatefulSet
 metadata:
   name: "{{ template "harbor.fullname" . }}-registry"
-  namespace: class100-ops
+  namespace: kube-apps
   labels:
 {{ include "harbor.labels" . | indent 4 }}
     component: registry
@@ -50,7 +50,7 @@ spec:
 {{- if not .Values.persistence.enabled }}
       - name: registry-data
         persistentVolumeClaim:
-          claimName: harbor-pvc
+          claimName: appspvc
 {{- end }}
 {{- end }}
       - name: registry-root-certificate

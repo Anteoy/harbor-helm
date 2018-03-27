@@ -2,7 +2,7 @@ apiVersion: apps/v1beta2
 kind: StatefulSet
 metadata:
   name: "{{ template "harbor.fullname" . }}-adminserver"
-  namespace: class100-ops
+  namespace: kube-apps
   labels:
 {{ include "harbor.labels" . | indent 4 }}
     component: adminserver
@@ -51,7 +51,7 @@ spec:
       {{- if not .Values.persistence.enabled }}
       - name: adminserver-config
         persistentVolumeClaim:
-          claimName: harbor-pvc
+          claimName: appspvc
       {{- end }}
       - name: adminserver-key
         secret:
